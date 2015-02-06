@@ -1,0 +1,39 @@
+Freescale KL25Z:
+
+	Datasheet:
+	siehe User's Manual: http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=FRDM-KL25Z&tab=Documentation_Tab&pspll=1&SelectedAsset=Documentation&ProdMetaId=PID/DC/FRDM-KL25Z&fromPSP=true&assetLockedForNavigation=true&componentId=2&leftNavCode=1&pageSize=25&Documentation=Documentation/00610Ksd1nd%60%60Data%20Sheets&fpsp=1&linkline=Data%20Sheets
+
+	integrated Accelerometer:
+	
+		Datasheet:
+		siehe auch Freescale KL25Z Datasheet, section 5.5
+		http://developer.mbed.org/components/FRDM-KL25Z-on-board-Accelerometer/
+		
+		Example:
+		http://developer.mbed.org/handbook/mbed-FRDM-KL25Z-Examples
+		http://developer.mbed.org/teams/Freescale/code/FRDM_MMA8451Q/
+
+		Problems:
+		Läuft nur mit I2C, das muss auf dem TelosB erst konfiguriert werden.
+
+PIR-Sensor:
+
+	Datasheet:
+	http://www.electronics123.net/amazon/datasheet/kc7783r.pdf
+
+	Examples:
+	http://makezine.com/video/build-a-basic-ir-motion-sensing-camera-with-weekend-projects/
+	http://makezine.com/projects/pir-sensor-arduino-alarm/ (Step 3)
+
+	Problems:
+	Der Sensor braucht 5V, was mit dem TelosB nicht möglich ist. Vlado meinte aber, wenn wir Glück haben funktioniert es trotzdem irgendwie mit 3,3 V. Andere Lösung mit einem Transistor (BC548) oder MOSFET.
+
+Reed-magnetic sensor
+
+	http://www.exp-tech.de/magnetic-contact-switch-door-sensor
+
+	Example, but with RaspberryPi:
+	https://learn.adafruit.com/adafruits-raspberry-pi-lesson-12-sensing-movement/hardware
+
+
+
