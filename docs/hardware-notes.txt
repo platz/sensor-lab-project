@@ -24,6 +24,7 @@ PIR-Sensor:
 	Examples:
 	http://makezine.com/video/build-a-basic-ir-motion-sensing-camera-with-weekend-projects/
 	http://makezine.com/projects/pir-sensor-arduino-alarm/ (Step 3)
+	http://robots.thoughtbot.com/arduino-bathroom-occupancy-detector
 
 	Problems:
 	Der Sensor braucht 5V, was mit dem TelosB nicht möglich ist. Vlado meinte aber, wenn wir Glück haben funktioniert es trotzdem irgendwie mit 3,3 V. Andere Lösung mit einem Transistor (BC548) oder MOSFET.
