@@ -1,5 +1,5 @@
 #include <Timer.h>
-#include <UserButton.h>
+#include "IrqPort.h"
 
 /**
  * Copyright (c) 2007 Arch Rock Corporation

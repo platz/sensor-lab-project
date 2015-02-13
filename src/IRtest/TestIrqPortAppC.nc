@@ -46,7 +46,7 @@ implementation {
   components MainC;
   TestIrqPortC.Boot -> MainC;
   
-  components UserButtonC;
+  components IrqPortC;
   TestIrqPortC.Get -> IrqPortC;
   TestIrqPortC.Notify -> IrqPortC;
 

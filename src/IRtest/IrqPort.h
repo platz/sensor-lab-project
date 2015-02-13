@@ -36,8 +36,8 @@
  * @version $Revision: 1.1 $
  */
 
-#ifndef USERBUTTON_H
-#define USERBUTTON_H
+#ifndef IRQPORT_H
+#define IRQPORT_H
 
 typedef enum { SWITCH_OPEN = 0, SWITCH_CLOSED = 1 } port_state_t;
 

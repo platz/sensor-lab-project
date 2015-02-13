@@ -42,17 +42,17 @@
  * @version $Revision: 1.1 $
  */
 
-#include <IrqPort.h>
+#include "IrqPort.h"
 
-configuration UserButtonC {
+configuration IrqPortC {
   provides interface Get<port_state_t>;
   provides interface Notify<port_state_t>;
 }
 implementation {
-  components HplIrqPortC;
+  components HlpIrqPortC;
   components new SwitchToggleC();
-  SwitchToggleC.GpioInterrupt -> HplUserButtonC.GpioInterrupt;
-  SwitchToggleC.GeneralIO -> HplUserButtonC.GeneralIO;
+  SwitchToggleC.GpioInterrupt -> HlpIrqPortC.GpioInterrupt;
+  SwitchToggleC.GeneralIO -> HlpIrqPortC.GeneralIO;
 
   components IrqPortP;
   Get = IrqPortP;

@@ -36,7 +36,7 @@
  * @version $Revision: 1.1 $
  */
 
-configuration HplUserButtonC {
+configuration HlpIrqPortC {
   provides interface GeneralIO;
   provides interface GpioInterrupt;
 }
@@ -44,11 +44,11 @@ implementation {
   components HplMsp430GeneralIOC as GeneralIOC;
   components HplMsp430InterruptC as InterruptC;
 
-  components new Msp430GpioC() as UserButtonC;
-  UserButtonC -> GeneralIOC.Port21;
-  GeneralIO = UserButtonC;
+  components new Msp430GpioC() as IrqPortC;
+  IrqPortC -> GeneralIOC.Port21;
+  GeneralIO = IrqPortC;
 
-  components new Msp430InterruptC() as InterruptUserButtonC;
-  InterruptUserButtonC.HplInterrupt -> InterruptC.Port21;
-  GpioInterrupt = InterruptUserButtonC.Interrupt;
+  components new Msp430InterruptC() as InterruptPortC;
+  InterruptPortC.HplInterrupt -> InterruptC.Port21;
+  GpioInterrupt = InterruptPortC.Interrupt;
 }

@@ -36,18 +36,18 @@
  * @version $Revision: 1.2 $
  */
 
-#include <IrqPort.h>
+#include "IrqPort.h"
 
-module UserButtonP {
-  provides interface Get<button_state_t>;
-  provides interface Notify<button_state_t>;
+module IrqPortP {
+  provides interface Get< port_state_t>;
+  provides interface Notify< port_state_t>;
 
   uses interface Get<bool> as GetLower;
   uses interface Notify<bool> as NotifyLower;
 }
 implementation {
   
-  command button_state_t Get.get() { 
+  command  port_state_t Get.get() { 
     // telosb user button pin is high when released - invert state
     if ( call GetLower.get() ) {
       return SWITCH_OPEN;
@@ -73,5 +73,5 @@ implementation {
     }
   }
   
-  default event void Notify.notify( button_state_t val ) { }
+  default event void Notify.notify(  port_state_t val ) { }
 }
