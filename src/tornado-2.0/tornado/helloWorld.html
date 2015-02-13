@@ -20,10 +20,10 @@
           var host = $("#host").val();
           var port = $("#port").val();
           var uri = $("#uri").val();
- 
+
           ws = new WebSocket("ws://" + host + ":" + port + uri);
  
-          ws.onmessage = function(evt) {alert("message received: " + evt.data); };
+          ws.onmessage = function(evt) {alert(evt.data); };
 
           ws.onclose = function(evt) { alert("Connection close"); };
  

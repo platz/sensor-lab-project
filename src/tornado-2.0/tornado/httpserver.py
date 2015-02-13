@@ -183,7 +183,7 @@ class HTTPServer(object):
         """
         if address == "":
             address = None
-        for res in socket.getaddrinfo(address, port, family, socket.SOCK_STREAM,
+        for res in socket.getaddrinfo(address, port, family, socket.SOCK_DGRAM,
                                       0, socket.AI_PASSIVE | socket.AI_ADDRCONFIG):
             af, socktype, proto, canonname, sockaddr = res
             sock = socket.socket(af, socktype, proto)
