@@ -1,0 +1,4 @@
+COMPONENT=TestIrqPortAppC
+
+TINYOS_ROOT_DIR?=$(WSNPR_TOSROOT)
+include $(TINYOS_ROOT_DIR)/Makefile.include
