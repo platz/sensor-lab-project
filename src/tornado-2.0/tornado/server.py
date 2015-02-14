@@ -3,7 +3,6 @@ import tornado.websocket
 import tornado.ioloop
 import tornado.web
 
-
 class WSHandler(tornado.websocket.WebSocketHandler):
 
     def check_origin(self, origin):
@@ -14,15 +13,33 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.write_message('Connection established')
       
     def on_message(self, message):
-        print 'message received: %s' % message
+        print 'message received via websocket, uri: "myWs": %s' % message
         self.write_message('Echo: ' +message)
  
     def on_close(self):
         print 'connection closed'
  
- 
 application = tornado.web.Application([
-    (r'/ws', WSHandler),
+    (r'/myWs', WSHandler),
+])
+
+class WSHandlerNeu(tornado.websocket.WebSocketHandler):
+    def check_origin(self, origin):
+        return True
+
+    def open(self):
+        print 'new connection'
+        self.write_message('Connection established')
+
+    def on_message(self, message):
+        print 'message received via websocket, uri: "wsNeu":\n%s' % message
+        self.write_message('Echo Neuuuuuu: ' +message)
+
+    def on_close(self):
+        print 'connection closed'
+
+application = tornado.web.Application([
+    (r'/wsNeu', WSHandlerNeu),
 ])
  
  
