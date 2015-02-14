@@ -1,4 +1,19 @@
-COMPONENT=ShowcaseC
+COMPONENT=SensingC
+
+TOSMAKE_PRE_EXE_DEPS = SensingTheft.py
+SensingTheft.py: sensing.h
+	mkdir -p utils
+	nescc-mig python -I$(TOSROOT)/tos/lib/net/blip \
+	-I$(TOSROOT)/support/sdk/c/blip/lib6lowpan \
+	-python-classname=SensingTheft sensing.h theft_report \
+	-o utils/SensingTheft.py
+TOSMAKE_PRE_EXE_DEPS = SensingLight.py
+SensingLight.py: sensing.h
+	mkdir -p utils
+	nescc-mig python -I$(TOSROOT)/tos/lib/net/blip \
+	-I$(TOSROOT)/support/sdk/c/blip/lib6lowpan \
+	-python-classname=SensingLight sensing.h light_report \
+	-o utils/SensingLight.py
 
 CFLAGS += -DCC2420_DEF_CHANNEL=$(TOS_CHANNEL)
 
@@ -17,8 +32,8 @@ PFLAGS += -DBLIP_SEND_ROUTER_ADVERTISEMENTS=1
 PFLAGS += -DNEW_PRINTF_SEMANTICS -DPRINTFUART_ENABLED
 CFLAGS += -I$(TINYOS_OS_DIR)/lib/printf
 
-# if this is set, motes will send debugging information to the address listed.
-CFLAGS += -DREPORT_DEST=\"fec0::100\"
+#sensor value translate
+CFLAGS += -I$(TINYOS_OS_DIR)/lib/net/coap/translate/
 
 TINYOS_ROOT_DIR?=$(WSNPR_TOSROOT)
 
@@ -26,3 +41,5 @@ GOALS += blip rpl
 
 include $(TINYOS_ROOT_DIR)/Makefile.include
 
+
+include $(MAKERULES)
