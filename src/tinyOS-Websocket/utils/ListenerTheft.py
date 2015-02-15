@@ -7,16 +7,18 @@ import sys
 rcvPort = 7777
 #fwdUdpPort = 2000
 #fwdWsPort = 8888
-fwdHost = '127.0.0.1'
+#fwdHost = '127.0.0.1'
+#alarmUri = 'alarm'
 
 if __name__ == '__main__':
 
     rcvSocket = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
     rcvSocket.bind(('', rcvPort))
     
-    websocket.enableTrace(True)
+    #websocket.enableTrace(True)
     try:
-        ws = websocket.create_connection("ws://127.0.0.1:8888/wsNeu")
+        ws = websocket.create_connection('ws://axinen.ddns.net:8888/alarm')
+        #ws = websocket.create_connection('ws://%s:%s/%s' % fwdHost, fwdWsPort, alarmUri)
     except:
         print 'unable to connect'
 
@@ -26,15 +28,16 @@ if __name__ == '__main__':
             # --- forwarding data via websocket to server
             rpt = SensingTheft.SensingTheft(data=data, data_length=len(data))
 	
-            print addr
+            #print addr
             print rpt
             #fwdSocket.send(str(rpt))
 
             ws.send(str(rpt))
-            print("Theft: Sent")
-            result = ws.recv()
-            #print("Received {}".format(result))
-            #ws.close()
+            result = ws.recv() # for echo testing
+            print("Received: {}".format(result)) # for echo testing
+
+
+    ws.close()
 
 
 
