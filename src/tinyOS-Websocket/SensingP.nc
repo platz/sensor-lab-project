@@ -16,7 +16,7 @@ module SensingP {
 } implementation {
 
 	enum {
-		SENSE_PERIOD = 250, // ms
+		SENSE_PERIOD = 750, // ms
 	};
 
 	nx_struct theft_report theft_struct;
