@@ -42,12 +42,17 @@ class WSHandlerEcho(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self):
+        connArr.append(self) # this appends a connection instance
+        for item in connArr:
+            print item
         print 'new connection URI: /echo'
         self.write_message('Connection established URI: /echo')
 
     def on_message(self, message):
         print 'message received via websocket, uri: "/echo":\n%s' % message
-        self.write_message('Echo Echo: ' +message)
+        # this is for broadcasting messages to all appended connection instances
+        for self in connArr:
+            self.write_message('Echo Echo: ' +message+ ' self: ' +str(self))
 
     def on_close(self):
         print 'connection closed URI: /echo'
@@ -59,6 +64,17 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
+
+    connArr = []
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8888)
     tornado.ioloop.IOLoop.instance().start()
+
+
+
+
+
+
+
+
+
