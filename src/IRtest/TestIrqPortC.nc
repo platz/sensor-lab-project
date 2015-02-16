@@ -53,7 +53,7 @@ module TestIrqPortC {
 implementation {
   event void Boot.booted() {
     call Notify.enable();
-    call Timer.startPeriodic( 4096 );
+    call Timer.startPeriodic( 100 );
   }
   
   event void Notify.notify( port_state_t state ) {
@@ -61,7 +61,8 @@ implementation {
       call Leds.led2On();
     } else if ( state == SWITCH_OPEN ) {
       call Leds.led2Off();
-    }
+    } 
+	call Leds.led0Toggle();
   }
 
   event void Timer.fired() {    
