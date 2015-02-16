@@ -1,0 +1,5 @@
+Tornado2.0
+http://github.com/downloads/facebook/tornado/tornado-2.0.tar.gz
+
+Python Websockets:
+https://pypi.python.org/pypi/websockets
