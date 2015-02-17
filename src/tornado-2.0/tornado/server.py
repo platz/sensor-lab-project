@@ -55,6 +55,7 @@ class WSHandlerEcho(tornado.websocket.WebSocketHandler):
             self.write_message('Echo Echo: ' +message+ ' self: ' +str(self))
 
     def on_close(self):
+        connArr.remove(self) # this removes an appended connection instance
         print 'connection closed URI: /echo'
 
 application = tornado.web.Application([
