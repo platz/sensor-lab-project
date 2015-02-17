@@ -21,7 +21,7 @@ module SensingP {
 } implementation {
 
 	enum {
-		SENSE_PERIOD = 500, // ms
+		SENSE_PERIOD = 1000, // ms
 	};
 
 	nx_struct sensing_report stats;
@@ -33,6 +33,7 @@ module SensingP {
 
 	event void Boot.booted() {
 		call RadioControl.start();
+		 call Notify.enable();
 	}
 
 	event void RadioControl.startDone(error_t e) {
@@ -68,6 +69,8 @@ module SensingP {
 		call LightPar.read();
 		call LightTsr.read();
 		bs = call Get.get();
+		post report_values();
+		call Leds.led1Toggle();
 	}
 
 	event void LightPar.readDone(error_t error, uint16_t val) {
