@@ -1,6 +1,3 @@
-#include <Timer.h>
-#include "IrqPort.h"
-
 /**
  * Copyright (c) 2007 Arch Rock Corporation
  * All rights reserved.
@@ -33,48 +30,15 @@
  */
 
 /**
- * Test for the user button on the telosb platform. Turns blue when
- * the button is pressed. Samples the button state every 4 seconds,
- * and turns green when the button is pressed.
+ * Implementation of the user button for the telosb platform
  *
  * @author Gilman Tolle <gtolle@archrock.com>
  * @version $Revision: 1.1 $
  */
 
-module TestIrqPortC {
-  uses {
-    interface Boot;
-    interface Get<port_state_t>;
-    interface Notify<port_state_t>;
-    interface Leds;
-    interface Timer<TMilli>;
-  }
-}
-implementation {
-  event void Boot.booted() {
-    call Notify.enable();
-    call Timer.startPeriodic( 100 );
-  }
-  
-  event void Notify.notify( port_state_t state ) {
-    if ( state == SWITCH_CLOSED ) {
-      call Leds.led2On();
-    } else if ( state == SWITCH_OPEN ) {
-      call Leds.led2Off();
-    } 
-	call Leds.led0Toggle();
-  }
+#ifndef IRQPORT_H
+#define IRQPORT_H
 
-  event void Timer.fired() {    
-    port_state_t bs;
+typedef enum { SWITCH_OPEN = 0, SWITCH_CLOSED = 1 } port_state_t;
 
-    bs = call Get.get();
-
-    if ( bs == SWITCH_CLOSED ) {
-      call Leds.led1On();
-    } else if ( bs == SWITCH_OPEN ) {
-      call Leds.led1Off();
-    }
-  }
-}
-
+#endif

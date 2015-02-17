@@ -1,6 +1,3 @@
-#include <Timer.h>
-#include "IrqPort.h"
-
 /**
  * Copyright (c) 2007 Arch Rock Corporation
  * All rights reserved.
@@ -33,48 +30,34 @@
  */
 
 /**
- * Test for the user button on the telosb platform. Turns blue when
- * the button is pressed. Samples the button state every 4 seconds,
- * and turns green when the button is pressed.
+ * Implementation of the user button for the telosb platform. Get
+ * returns the current state of the button by reading the pin,
+ * regardless of whether enable() or disable() has been called on the
+ * Interface. Notify.enable() and Notify.disable() modify the
+ * underlying interrupt state of the pin, and have the effect of
+ * enabling or disabling notifications that the button has changed
+ * state.
  *
  * @author Gilman Tolle <gtolle@archrock.com>
  * @version $Revision: 1.1 $
  */
 
-module TestIrqPortC {
-  uses {
-    interface Boot;
-    interface Get<port_state_t>;
-    interface Notify<port_state_t>;
-    interface Leds;
-    interface Timer<TMilli>;
-  }
+#include "IrqPort.h"
+
+configuration IrqPortC {
+  provides interface Get<port_state_t>;
+  provides interface Notify<port_state_t>;
 }
 implementation {
-  event void Boot.booted() {
-    call Notify.enable();
-    call Timer.startPeriodic( 100 );
-  }
-  
-  event void Notify.notify( port_state_t state ) {
-    if ( state == SWITCH_CLOSED ) {
-      call Leds.led2On();
-    } else if ( state == SWITCH_OPEN ) {
-      call Leds.led2Off();
-    } 
-	call Leds.led0Toggle();
-  }
+  components HlpIrqPortC;
+  components new SwitchToggleC();
+  SwitchToggleC.GpioInterrupt -> HlpIrqPortC.GpioInterrupt;
+  SwitchToggleC.GeneralIO -> HlpIrqPortC.GeneralIO;
 
-  event void Timer.fired() {    
-    port_state_t bs;
+  components IrqPortP;
+  Get = IrqPortP;
+  Notify = IrqPortP;
 
-    bs = call Get.get();
-
-    if ( bs == SWITCH_CLOSED ) {
-      call Leds.led1On();
-    } else if ( bs == SWITCH_OPEN ) {
-      call Leds.led1Off();
-    }
-  }
+  IrqPortP.GetLower -> SwitchToggleC.Get;
+  IrqPortP.NotifyLower -> SwitchToggleC.Notify;
 }
-

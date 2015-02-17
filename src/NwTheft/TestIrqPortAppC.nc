@@ -1,6 +1,3 @@
-#include <Timer.h>
-#include "IrqPort.h"
-
 /**
  * Copyright (c) 2007 Arch Rock Corporation
  * All rights reserved.
@@ -41,40 +38,21 @@
  * @version $Revision: 1.1 $
  */
 
-module TestIrqPortC {
-  uses {
-    interface Boot;
-    interface Get<port_state_t>;
-    interface Notify<port_state_t>;
-    interface Leds;
-    interface Timer<TMilli>;
-  }
-}
+configuration TestIrqPortAppC {}
 implementation {
-  event void Boot.booted() {
-    call Notify.enable();
-    call Timer.startPeriodic( 100 );
-  }
+
+  components TestIrqPortC;
+
+  components MainC;
+  TestIrqPortC.Boot -> MainC;
   
-  event void Notify.notify( port_state_t state ) {
-    if ( state == SWITCH_CLOSED ) {
-      call Leds.led2On();
-    } else if ( state == SWITCH_OPEN ) {
-      call Leds.led2Off();
-    } 
-	call Leds.led0Toggle();
-  }
+  components IrqPortC;
+  TestIrqPortC.Get -> IrqPortC;
+  TestIrqPortC.Notify -> IrqPortC;
 
-  event void Timer.fired() {    
-    port_state_t bs;
+  components LedsC;
+  TestIrqPortC.Leds -> LedsC;
 
-    bs = call Get.get();
-
-    if ( bs == SWITCH_CLOSED ) {
-      call Leds.led1On();
-    } else if ( bs == SWITCH_OPEN ) {
-      call Leds.led1Off();
-    }
-  }
+  components new TimerMilliC();
+  TestIrqPortC.Timer -> TimerMilliC;
 }
-

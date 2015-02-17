@@ -1,6 +1,3 @@
-#include <Timer.h>
-#include "IrqPort.h"
-
 /**
  * Copyright (c) 2007 Arch Rock Corporation
  * All rights reserved.
@@ -33,48 +30,48 @@
  */
 
 /**
- * Test for the user button on the telosb platform. Turns blue when
- * the button is pressed. Samples the button state every 4 seconds,
- * and turns green when the button is pressed.
+ * Implementation of the user button for the telosb platform
  *
  * @author Gilman Tolle <gtolle@archrock.com>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 
-module TestIrqPortC {
-  uses {
-    interface Boot;
-    interface Get<port_state_t>;
-    interface Notify<port_state_t>;
-    interface Leds;
-    interface Timer<TMilli>;
-  }
+#include "IrqPort.h"
+
+module IrqPortP {
+  provides interface Get< port_state_t>;
+  provides interface Notify< port_state_t>;
+
+  uses interface Get<bool> as GetLower;
+  uses interface Notify<bool> as NotifyLower;
 }
 implementation {
-  event void Boot.booted() {
-    call Notify.enable();
-    call Timer.startPeriodic( 100 );
-  }
   
-  event void Notify.notify( port_state_t state ) {
-    if ( state == SWITCH_CLOSED ) {
-      call Leds.led2On();
-    } else if ( state == SWITCH_OPEN ) {
-      call Leds.led2Off();
-    } 
-	call Leds.led0Toggle();
-  }
-
-  event void Timer.fired() {    
-    port_state_t bs;
-
-    bs = call Get.get();
-
-    if ( bs == SWITCH_CLOSED ) {
-      call Leds.led1On();
-    } else if ( bs == SWITCH_OPEN ) {
-      call Leds.led1Off();
+  command  port_state_t Get.get() { 
+    // telosb user button pin is high when released - invert state
+    if ( call GetLower.get() ) {
+      return SWITCH_OPEN;
+    } else {
+      return SWITCH_CLOSED;
     }
   }
-}
 
+  command error_t Notify.enable() {
+    return call NotifyLower.enable();
+  }
+
+  command error_t Notify.disable() {
+    return call NotifyLower.disable();
+  }
+
+  event void NotifyLower.notify( bool val ) {
+    // telosb user button pin is high when released - invert state
+    if ( val ) {
+      signal Notify.notify( SWITCH_OPEN );
+    } else {
+      signal Notify.notify( SWITCH_CLOSED );
+    }
+  }
+  
+  default event void Notify.notify(  port_state_t val ) { }
+}
