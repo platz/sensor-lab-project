@@ -29,6 +29,9 @@ PIR-Sensor:
 	Problems:
 	Der Sensor braucht 5V, was mit dem TelosB nicht möglich ist. Vlado meinte aber, wenn wir Glück haben funktioniert es trotzdem irgendwie mit 3,3 V. Andere Lösung mit einem Transistor (BC548) oder MOSFET.
 
+	3,3V -> 5V level shifter	
+	http://www.incrediblediy.com/2013/02/simple-33v5v-level-shifter.html
+
 Reed-magnetic sensor
 
 	http://www.exp-tech.de/magnetic-contact-switch-door-sensor
