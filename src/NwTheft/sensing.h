@@ -15,6 +15,6 @@ nx_struct sensing_report {
   nx_uint8_t switchState;
 } ;
 
-#define REPORT_DEST "fec0::1"
+#define REPORT_DEST "fec0::100"
 
 #endif
