@@ -21,6 +21,9 @@ configuration SensingC {
 	SensingP.LightPar -> LightPar.Read;
 	SensingP.LightTsr -> LightTsr.Read;
 
+	components UDPShellC;
+	components UdpC;
+
 	components new UdpSocketC() as SenseSend;
 	SensingP.SenseSend -> SenseSend;
 
