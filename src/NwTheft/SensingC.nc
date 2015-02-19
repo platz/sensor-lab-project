@@ -23,10 +23,18 @@ configuration SensingC {
 
 	components new UdpSocketC() as SenseSend;
 	SensingP.SenseSend -> SenseSend;
+	components new UdpSocketC() as ConfigSend;
+	SensingP.ConfigSend -> ConfigSend;
 
 	components IrqPortC;
 	SensingP.Get -> IrqPortC;
   	SensingP.Notify -> IrqPortC;
+
+	components UDPShellC;
+	components new ShellCommandC("get") as ConfigGet;
+	components new ShellCommandC("set") as ConfigSet;
+	SensingP.ConfigGet -> ConfigGet;
+	SensingP.ConfigSet -> ConfigSet;
 
 #ifdef PRINTFUART_ENABLED
   /* This component wires printf directly to the serial port, and does
