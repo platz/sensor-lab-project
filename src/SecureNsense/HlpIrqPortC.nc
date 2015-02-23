@@ -29,35 +29,20 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE
  */
 
-/**
- * Implementation of the user button for the telosb platform. Get
- * returns the current state of the button by reading the pin,
- * regardless of whether enable() or disable() has been called on the
- * Interface. Notify.enable() and Notify.disable() modify the
- * underlying interrupt state of the pin, and have the effect of
- * enabling or disabling notifications that the button has changed
- * state.
- *
- * @author Gilman Tolle <gtolle@archrock.com>
- * @version $Revision: 1.1 $
- */
 
-#include "IrqPort.h"
-
-configuration IrqPortC {
-  provides interface Get<port_state_t>;
-  provides interface Notify<port_state_t>;
+configuration HlpIrqPortC {
+  provides interface GeneralIO;
+  provides interface GpioInterrupt;
 }
 implementation {
-  components HlpIrqPortC;
-  components new SwitchToggleC();
-  SwitchToggleC.GpioInterrupt -> HlpIrqPortC.GpioInterrupt;
-  SwitchToggleC.GeneralIO -> HlpIrqPortC.GeneralIO;
+  components HplMsp430GeneralIOC as GeneralIOC;
+  components HplMsp430InterruptC as InterruptC;
 
-  components IrqPortP;
-  Get = IrqPortP;
-  Notify = IrqPortP;
+  components new Msp430GpioC() as IrqPortC;
+  IrqPortC -> GeneralIOC.Port21;
+  GeneralIO = IrqPortC;
 
-  IrqPortP.GetLower -> SwitchToggleC.Get;
-  IrqPortP.NotifyLower -> SwitchToggleC.Notify;
+  components new Msp430InterruptC() as InterruptPortC;
+  InterruptPortC.HplInterrupt -> InterruptC.Port21;
+  GpioInterrupt = InterruptPortC.Interrupt;
 }

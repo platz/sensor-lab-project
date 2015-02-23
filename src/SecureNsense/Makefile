@@ -1,4 +1,4 @@
-COMPONENT=SensingC
+COMPONENT=SecureNsenseC
 
 TOSMAKE_PRE_EXE_DEPS = Sensing.py
 Sensing.py: sensing.h

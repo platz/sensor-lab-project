@@ -1,35 +1,40 @@
-configuration SensingC {
+configuration SecureNsenseC {
 } implementation {
-	components MainC, LedsC, SensingP;
-	SensingP.Boot -> MainC;
-	SensingP.Leds -> LedsC;
+	components MainC, LedsC, SecureNsenseP;
+	SecureNsenseP.Boot -> MainC;
+	SecureNsenseP.Leds -> LedsC;
 
 	components IPStackC;
 	components RPLRoutingC;
 	components StaticIPAddressTosIdC;
-	SensingP.RadioControl -> IPStackC;
+	SecureNsenseP.RadioControl -> IPStackC;
 
 	components new TimerMilliC() as SenseTimer;
-	SensingP.SenseTimer -> SenseTimer;
+	SecureNsenseP.SenseTimer -> SenseTimer;
 
 	components new  SensirionSht11C() as TemperateHumiditySensor;
-	SensingP.Temperature -> TemperateHumiditySensor.Temperature;
-	SensingP.Humidity -> TemperateHumiditySensor.Humidity;
+	SecureNsenseP.Temperature -> TemperateHumiditySensor.Temperature;
+	SecureNsenseP.Humidity -> TemperateHumiditySensor.Humidity;
 
 	components new HamamatsuS1087ParC() as LightPar;
 	components new HamamatsuS10871TsrC() as LightTsr;
-	SensingP.LightPar -> LightPar.Read;
-	SensingP.LightTsr -> LightTsr.Read;
-
-	components UDPShellC;
-	components UdpC;
+	SecureNsenseP.LightPar -> LightPar.Read;
+	SecureNsenseP.LightTsr -> LightTsr.Read;
 
 	components new UdpSocketC() as SenseSend;
-	SensingP.SenseSend -> SenseSend;
+	SecureNsenseP.SenseSend -> SenseSend;
+	components new UdpSocketC() as ConfigSend;
+	SecureNsenseP.ConfigSend -> ConfigSend;
 
 	components IrqPortC;
-	SensingP.Get -> IrqPortC;
-  	SensingP.Notify -> IrqPortC;
+	SecureNsenseP.Get -> IrqPortC;
+  	SecureNsenseP.Notify -> IrqPortC;
+
+	components UDPShellC;
+	components new ShellCommandC("get") as ConfigGet;
+	components new ShellCommandC("set") as ConfigSet;
+	SecureNsenseP.ConfigGet -> ConfigGet;
+	SecureNsenseP.ConfigSet -> ConfigSet;
 
 #ifdef PRINTFUART_ENABLED
   /* This component wires printf directly to the serial port, and does
