@@ -1,6 +1,3 @@
-#include <Timer.h>
-#include "IrqPort.h"
-
 /**
  * Copyright (c) 2007 Arch Rock Corporation
  * All rights reserved.
@@ -32,49 +29,20 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE
  */
 
-/**
- * Test for the user button on the telosb platform. Turns blue when
- * the button is pressed. Samples the button state every 4 seconds,
- * and turns green when the button is pressed.
- *
- * @author Gilman Tolle <gtolle@archrock.com>
- * @version $Revision: 1.1 $
- */
 
-module TestIrqPortC {
-  uses {
-    interface Boot;
-    interface Get<port_state_t>;
-    interface Notify<port_state_t>;
-    interface Leds;
-    interface Timer<TMilli>;
-  }
+configuration HlpIrqPortC {
+  provides interface GeneralIO;
+  provides interface GpioInterrupt;
 }
 implementation {
-  event void Boot.booted() {
-    call Notify.enable();
-    call Timer.startPeriodic( 100 );
-  }
-  
-  event void Notify.notify( port_state_t state ) {
-    if ( state == SWITCH_CLOSED ) {
-      call Leds.led2On();
-    } else if ( state == SWITCH_OPEN ) {
-      call Leds.led2Off();
-    } 
-	call Leds.led0Toggle();
-  }
+  components HplMsp430GeneralIOC as GeneralIOC;
+  components HplMsp430InterruptC as InterruptC;
 
-  event void Timer.fired() {    
-    port_state_t bs;
+  components new Msp430GpioC() as IrqPortC;
+  IrqPortC -> GeneralIOC.Port21;
+  GeneralIO = IrqPortC;
 
-    bs = call Get.get();
-
-    if ( bs == SWITCH_CLOSED ) {
-      call Leds.led1On();
-    } else if ( bs == SWITCH_OPEN ) {
-      call Leds.led1Off();
-    }
-  }
+  components new Msp430InterruptC() as InterruptPortC;
+  InterruptPortC.HplInterrupt -> InterruptC.Port21;
+  GpioInterrupt = InterruptPortC.Interrupt;
 }
-

@@ -29,33 +29,33 @@ class Sensing(tinyos.message.Message.Message):
     # message type name and the non-indexed field values.
     #
     def __str__(self):
-        s = "Message <Sensing> \n"
+        s = ""
         try:
-            s += "  [seqno=0x%x]\n" % (self.get_seqno())
+            s += "0x%x;" % (self.get_seqno())
         except:
             pass
         try:
-            s += "  [sender=0x%x]\n" % (self.get_sender())
+            s += "0x%x;" % (self.get_sender())
         except:
             pass
         try:
-            s += "  [humidity=0x%x]\n" % (self.get_humidity())
+            s += "0x%x;" % (self.get_humidity())
         except:
             pass
         try:
-            s += "  [temperature=0x%x]\n" % (self.get_temperature())
+            s += "0x%x;" % (self.get_temperature())
         except:
             pass
         try:
-            s += "  [lightPar=0x%x]\n" % (self.get_lightPar())
+            s += "0x%x;" % (self.get_lightPar())
         except:
             pass
         try:
-            s += "  [lightTsr=0x%x]\n" % (self.get_lightTsr())
+            s += "0x%x;" % (self.get_lightTsr())
         except:
             pass
         try:
-            s += "  [switchState=0x%x]\n" % (self.get_switchState())
+            s += "0x%x" % (self.get_switchState())
         except:
             pass
         return s

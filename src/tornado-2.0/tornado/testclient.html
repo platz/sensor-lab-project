@@ -1,82 +1,110 @@
 <!doctype html>
 <html>
-  <head>
-    <title>WebSockets JQuery Testclient</title>
-    <meta charset="utf-8" />
-    <style type="text/css">
-      body {
-        text-align: center;
-        min-width: 500px;
-      }
-    </style>
-    <script src="http://code.jquery.com/jquery.min.js"></script>
-    <script>
-      $(document).ready(function () {
- 
-        var ws;
- 
-        $("#open").click(function(evt) {
-          evt.preventDefault();
-          var host = $("#host").val();
-          var port = $("#port").val();
-          var uri = $("#uri").val();
+    <head>
+        <title>WebSockets JQuery Testclient</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+            body {
+                text-align: center;
+                min-width: 500px;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
 
-          ws = new WebSocket("ws://" + host + ":" + port + uri);
- 
-          ws.onmessage = function(evt) {alert(evt.data); };
+                var ws;
 
-          ws.onclose = function(evt) { alert("Connection close"); };
- 
-          ws.onopen = function(evt) { 
-            $("#host").css("background", "#00ff00"); 
-            $("#port").css("background", "#00ff00"); 
-            $("#uri").css("background", "#00ff00");
-          };
-        });
+                $("#open").click(function(evt) {
+                    evt.preventDefault();
+                    var host = $("#host").val();
+                    var port = $("#port").val();
+                    var uri = $("#uri").val();
 
-        $("#sendecho").click(function(evt) {
-          evt.preventDefault();
+                    ws = new WebSocket("ws://" + host + ":" + port + uri);
 
-          var echo = $("#echo").val();
+                    ws.onmessage = function(evt) {
+                        //alert(evt.data);
+                        var html = '<p>' +evt.data+ '</p>';
+                        $("#nodedata").prepend(html);
+                    };
+                    ws.onclose = function(evt) {
+                        $("#host").css("background", "#ff0000");
+                        $("#port").css("background", "#ff0000");
+                        $("#uri").css("background", "#ff0000");
+                        alert("Connection close");
+                    };
+                    ws.onopen = function(evt) {
+                        $("#host").css("background", "#00ff00");
+                        $("#port").css("background", "#00ff00");
+                        $("#uri").css("background", "#00ff00");
+                    };
+                });
 
-          ws.send(echo);
+                $("#send_echo").click(function(evt) {
+                    evt.preventDefault();
+                    var echo = $("#echo").val();
 
-          ws.onmessage = function(evt) {
-              alert("message received: " + evt.data);
-              $("#echo").css("background", "#00ff00");
-          };
+                    ws.send(echo);
+                    ws.onmessage = function(evt) {
+                        alert("message received: " + evt.data);
+                        $("#echo").css("background", "#00ff00");
+                    };
+                    ws.onclose = function(evt) { alert("Connection close"); };
+                });
 
-          ws.onclose = function(evt) { alert("Connection close"); };
-          
-          
-        });
- 
-      });
-    </script>
-  </head>
- 
-  <body>
-    <h1>WebSockets Hello World</h1>
-    <div>
-      <label for="host">host:</label>
-      <input type="text" id="host" value="axinen.ddns.net" style="background:#ff0000;"/><br />
-      <label for="port">port:</label>
-      <input type="text" id="port" value="8888" style="background:#ff0000;"/><br />
-      <label for="uri">uri:</label>
-      <input type="text" id="uri" value="/echo" style="background:#ff0000;"/><br />
-      <label>available URIs: /sensing, /alarm, /echo</label>
+                $("#send_settings").click(function(evt) {
+                    evt.preventDefault();
+                    var settings = $("#settings").val();
 
-      <input type="submit" id="open" value="open" />
-    </div>
+                    ws.send(settings);
+                    ws.onmessage = function(evt) {
+                        alert(evt.data);
+                        $("#settings").css("background", "#00ff00");
+                    };
+                    ws.onclose = function(evt) { alert("Connection close"); };
+                });
 
-    <h1>Echo Test</h1>
-    <div>
-      <label for="echo">echo:</label>
-      <input type="text" id="echo" value="standardecho" style="background:#ff0000;"/><br />
+            });
+        </script>
+    </head>
 
-      <input type="submit" id="sendecho" value="sendecho" />
-    </div>
-  </body>
+    <body>
+        <h1>WebSockets JQuery Testclient</h1>
+        <div>
+            <label for="host">host:</label>
+            <input type="text" id="host" value="localhost" style="background:#ff0000;"/><br />
+            <label for="port">port:</label>
+            <input type="text" id="port" value="8888" style="background:#ff0000;"/><br />
+            <label for="uri">uri:</label>
+            <input type="text" id="uri" value="/echo" style="background:#ff0000;"/><br />
+            <label>available URIs: /sensing, /alarm, /echo</label>
+
+            <input type="submit" id="open" value="open" />
+        </div>
+
+        <h1>Echo Test</h1>
+        <div>
+            <label for="echo">echo:</label>
+            <input type="text" id="echo" value="standardecho" style="background:#ff0000;"/><br />
+
+            <input type="submit" id="send_echo" value="send echo" />
+        </div>
+
+        <h1>Send Settings</h1>
+        <div>
+            <label for="settings">settings</label>
+            <input type="text" id="settings" value="settings command" style="background:#ff0000;"/><br />
+
+            <input type="submit" id="send_settings" value="send settings" />
+        </div>
+
+        <h1>Node Data</h1>
+        <div id="nodedata">
+
+        </div>
+
+    </body>
 </html>
- 
+
 

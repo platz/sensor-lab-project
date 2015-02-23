@@ -29,16 +29,23 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE
  */
 
-/**
- * Implementation of the user button for the telosb platform
- *
- * @author Gilman Tolle <gtolle@archrock.com>
- * @version $Revision: 1.1 $
- */
 
-#ifndef IRQPORT_H
-#define IRQPORT_H
+#include "IrqPort.h"
 
-typedef enum { SWITCH_OPEN = 0, SWITCH_CLOSED = 1 } port_state_t;
+configuration IrqPortC {
+  provides interface Get<port_state_t>;
+  provides interface Notify<port_state_t>;
+}
+implementation {
+  components HlpIrqPortC;
+  components new SwitchToggleC();
+  SwitchToggleC.GpioInterrupt -> HlpIrqPortC.GpioInterrupt;
+  SwitchToggleC.GeneralIO -> HlpIrqPortC.GeneralIO;
 
-#endif
+  components IrqPortP;
+  Get = IrqPortP;
+  Notify = IrqPortP;
+
+  IrqPortP.GetLower -> SwitchToggleC.Get;
+  IrqPortP.NotifyLower -> SwitchToggleC.Notify;
+}
