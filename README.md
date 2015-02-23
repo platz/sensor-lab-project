@@ -37,7 +37,7 @@ please make sure to have a working TinyOS border router
    navigate to <projectRoot>/src/requestHandler/ and execute
    $python Listener.py
 
-4. Connect a websocket client to: "ws://127.0.0.1:8888/sensing"
+4. Connect a websocket client to: "ws://127.0.0.1:8888/sensing" or "ws://127.0.0.1:8888/sensing"
    if you can't use the IOS-Client a simple web client is provided which you can find under:
    http://www.user.tu-berlin.de/alexander.platz/sensor-lab-project/testclient.html
 
