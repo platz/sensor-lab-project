@@ -2,6 +2,7 @@
 *.pyc
 *.svg
 *.png
+*.class
 libs
 build
 src/tinyOS-Websocket/build/telosb
