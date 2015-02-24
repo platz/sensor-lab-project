@@ -18,24 +18,23 @@ Software:
 
 ## Installation
 
-Python specific: please have a look the links above
+Python specific: Please have a look at the links above.
 
 TinyOS specific: To flash a development board, navigate to <projectRoot>/src/SecureNsense/
 and execute $>make telosb install,<node-id> bsl,/dev/ttyUSB<virtual USB Port>
-please make sure to have a working TinyOS border router
+please make sure to have a working TinyOS border router.
 
 ## Usage
 1. Make sure your TinyOS nodes are running and sending.
 
-2. Start the Tornado Websocket Server and navigate to <projectRoot>/src/tornado-2.0/tornado/ and execute 
-   $>python server.py
+2. Start the Tornado Websocket Server and navigate to <projectRoot>/src/tornado-2.0/tornado/ and execute $>python server.py
 
-3. Start the Python Request Handler and navigate to <projectRoot>/src/requestHandler/ and execute
-   $python Listener.py
+3. Start the Python Request Handler and navigate to <projectRoot>/src/requestHandler/ and execute $python Listener.py
 
 4. Connect a websocket client to: "ws://127.0.0.1:8888/sensing" or "ws://127.0.0.1:8888/alarm"
-   if you can't use the IOS-Client a simple web client is provided which you can find under:
-   http://www.user.tu-berlin.de/alexander.platz/sensor-lab-project/testclient.html
+   if you can't use the IOS-Client, a simple web client, named testclient.html is provided which you can find under: <projectRoot>/src/tornado-2.0/tornado/
+   
+or under: http://www.user.tu-berlin.de/alexander.platz/sensor-lab-project/testclient.html
 
    You can download it or just use it as it is from the internet. If you use it from the internet
    please make sure you have active port-forwarding (:8888) on the local router where the machine with the
