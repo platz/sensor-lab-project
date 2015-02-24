@@ -1,7 +1,7 @@
 # TECHNISCHE UNIVERSITÄT BERLIN
 # Sensor-Networks Lab Project
 
-Environment monitoring with intrusion detection using the open-source TelosB / TmoteSky platform with tinyOS as the wireless sensor node operating system. Environment monitoring is done by sending periodically the on-board sensor data (light, humidity and temperature). Intrusion is detected by a reed-switch on interrupt. Both data is sent via an IPv6 UDP socket to a Python request handler. There, the data is distributed to the Tornado Websocket Server, into different channels. These channels are separated by URIs so that connecting clients to the Tornado Websocket Server can hook to different channels.  
+Environment monitoring with intrusion detection using the open-source TelosB / TmoteSky platform with tinyOS as the wireless sensor node operating system. Environment monitoring is done by sending periodically the on-board sensor data (light, humidity and temperature). Intrusion is detected by a reed-switch on interrupt. Both data is sent via the 6LoWPAN stack using UDP sockets to a Python request handler. There, the data is distributed to the Tornado Websocket Server, into different channels. These channels are separated by URIs so that connecting clients to the Tornado Websocket Server can hook to different channels.  
 
 ## Prerequisites
 
@@ -12,11 +12,9 @@ Hardware:
 Software:
 - Python ≥ 3.4 or Python 3.3 with the asyncio module
 
-- Tornado 2.0
-http://github.com/downloads/facebook/tornado/tornado-2.0.tar.gz
+- Tornado 2.0: http://github.com/downloads/facebook/tornado/tornado-2.0.tar.gz
 
-- Python websockets 2.4
-https://pypi.python.org/pypi/websockets
+- Python websockets 2.4: https://pypi.python.org/pypi/websockets
 
 ## Installation
 
